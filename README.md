@@ -1,5 +1,5 @@
 **Öğrenci Adı Soyadı:** Duru Korkmaz  
-**Staj Dönemi:** 2026 yaz  
+**Staj Dönemi:** 01.07.2026-10.07.2026 
 **3. ve 4. Hafta Çalışma Amacı:** Modern bir web projesinin teknik, içerik, SEO, sosyal medya ve sürüm kontrolü süreçlerini bütüncül olarak öğrenmek ve AIHEXA projesi üzerinde uygulamak.
 
 ## Kullanılacak Teknolojiler
