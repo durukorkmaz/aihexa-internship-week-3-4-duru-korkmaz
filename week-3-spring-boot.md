@@ -13,21 +13,3 @@ Geleneksel Spring projelerinde, XML dosyaları veya uzun Java sınıfları ile d
 * **Başlangıç Bağımlılıkları (Starter Dependencies):** Maven veya Gradle gibi araçlar için optimize edilmiş `spring-boot-starter` paketleri sunar. Tek bir paketle (örneğin `spring-boot-starter-web`) ihtiyacınız olan tüm kütüphaneleri otomatik olarak projenize dahil edebilirsiniz.
 * **XML Yapılandırması Gerektirmez:** Tamamen Java tabanlı konfigürasyonları destekler; karmaşık XML dosyaları yazma zorunluluğunu ortadan kaldırır.
 * **Üretime Hazır Araçlar (Spring Boot Actuator):** Canlı sistemdeki uygulamaların sağlık durumunu (health check), metriklerini ve performansını izlemenizi sağlayan dahili araçlar sunar.
-
-
-## Spring ve Spring Boot Arasındaki Fark Nedir?
-
-| Özellik | Spring Framework | Spring Boot |
-| :--- | :--- | :--- |
-| **Yapılandırma** | Manuel ve detaylı XML/Java konfigürasyonları gerektirir. | Otomatik yapılandırma (Auto-configuration) sunar. |
-| **Sunucu Kurulumu** | Harici bir uygulama sunucusuna (Tomcat, WildFly vb.) ihtiyaç duyar. | İçerisinde gömülü sunucu barındırır (Harici kuruluma gerek yoktur). |
-| **Geliştirme Hızı** | Fazla boilerplate (tekrar eden) kod ve kurulum süresi gerektirir. | Hızlı başlangıç sağlar, kod yükünü ve zaman kaybını azaltır. |
-
----
-
-## Neden Spring Boot Tercih Edilir?
-
-1. **Hız ve Kolaylık:** Fikir aşamasından canlı ortama geçiş süresini minimuma indirir.
-2. **Mikroservis Uyumluluğu:** Modern bulut tabanlı ve mikroservis mimarileriyle mükemmel uyum sağlar.
-3. **Geniş Ekosistem:** Spring Security, Spring Data ve Spring Cloud gibi güçlü alt projelerle sorunsuz entegre olur.
-4. **Büyük Topluluk:** Dünyada milyonlarca geliştirici tarafından kullanıldığı için geniş bir dokümantasyon ve destek havuzuna sahiptir.
