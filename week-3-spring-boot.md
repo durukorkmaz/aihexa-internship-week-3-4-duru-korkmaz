@@ -381,3 +381,62 @@ public class UrunService {
 * **Kendi Kodunuza Odaklanma (Kendi Paketiniz):** Log yığını içerisinde Java'nın kendi dahili kütüphanelerini (örneğin `java.base` veya `tomcat`) geçerek, kendi projenize ait paket adının (örneğin `com.ornek.proje`) geçtiği ilk satırı bulmak.
 * **Dosya Adı ve Satır Numarasını Tespit Etme:** İlgili satırın sonunda parantez içinde yer alan dosya adını ve hata kodunun bulunduğu satır numarasını (örneğin `UrunService.java:42`) inceleyerek hatanın kodda tam olarak nerede yaşandığını görmek.
 * **Tetikleyici Nedeni (Caused by) İnceleme:** Hata raporunun alt kısımlarında yer alan "Caused by:" ifadelerini takip ederek, asıl soruna yol açan kök nedeni (root cause) ortaya çıkarmak.
+
+
+## Kullanıcı Kayıt Sistemi Akışı
+**React Form $\rightarrow$ JSON Veri $\rightarrow$ Spring Boot Controller $\rightarrow$ Service $\rightarrow$ Repository $\rightarrow$ Database $\rightarrow$ Response $\rightarrow$ Frontend Mesajı**
+
+Bu akış, bir kullanıcının web arayüzünden kayıt ol butonuna basmasından itibaren verinin veritabanına kaydedilmesine ve kullanıcıya geri bildirim verilmesine kadar geçen süreci ifade eder.
+
+---
+
+#
+
+### 1. Kullanıcı hangi bilgileri girer?
+* Bir kayıt sisteminde kullanıcı genellikle şu bilgileri girer:
+  * Ad ve Soyad
+  * E-posta adresi (benzersiz bir kimlik olarak)
+  * Şifre (güvenlik için)
+  * İsteğe bağlı olarak telefon numarası, doğum tarihi veya kullanıcı adı gibi ek alanlar.
+
+### 2. React bu bilgileri nasıl toplar?
+* React, kullanıcı girdilerini yönetmek için **State** (durum) yapılarını (örneğin `useState` hook'u) kullanır.
+* Form elemanlarına (`<input>`, `<select>` vb.) `value` ve `onChange` event (olay) dinleyicileri bağlanarak kullanıcının klavyeden girdiği her karakter anlık olarak state içinde saklanır.
+* Kullanıcı "Kayıt Ol" butonuna basıp formu gönderdiğinde (`onSubmit`), bu state içerisindeki veriler bir JavaScript nesnesinde toplanır.
+
+### 3. Backend’e hangi formatta veri gönderilir?
+* Frontend'den backend'e (Spring Boot) veriler genellikle **JSON (JavaScript Object Notation)** formatında gönderilir.
+* JavaScript nesnesi, `JSON.stringify()` yöntemiyle bir JSON metnine dönüştürülür ve HTTP POST isteğinin gövdesinde (request body) taşınır.
+
+### 4. Controller ne yapar?
+* Spring Boot tarafında gelen HTTP isteklerini karşılayan ilk katmandır (`@RestController`).
+* İstek hangi URL'e (`@PostMapping`) geldiyse onu yakalar, dışarıdan gelen JSON verisini Java nesnesine (DTO veya Entity) dönüştürür.
+* Gelen verinin temel kontrolünü (örneğin boş olmama durumlarını `@Valid` ile) yaptıktan sonra işlenmesi için **Service** katmanına aktarır.
+
+### 5. Service neyi kontrol eder?
+* Uygulamanın iş kurallarını (business logic) barındırır.
+* Bu aşamada şu kontroller yapılır:
+  * Aynı e-posta adresiyle daha önce kayıt olunmuş mu? (Veritabanı kontrolü için Repository'ye danışılır).
+  * Şifre belirlenen güvenlik kurallarına (karakter sayısı, büyük/küçük harf vb.) uygun mu?
+  * Girilen şifre veritabanına kaydedilmeden önce **BCrypt** gibi algoritmalarla güvenli bir şekilde hash'lenir (şifrelenir).
+
+### 6. Repository ne işe yarar?
+* Veritabanı ile doğrudan konuşan katmandır (Spring Data JPA / Hibernate arayüzleri).
+* SQL sorguları yazmaya gerek kalmadan, hazır metodlar (`save()`, `findByEmail()` vb.) aracılığıyla veritabanı işlemlerini (CRUD) gerçekleştirir.
+* Service katmanından gelen veriyi veritabanı diline çevirerek iletir.
+
+### 7. Database’e hangi bilgiler girer?
+* Kullanıcının formda doldurduğu ve sistemin güvenlikten geçirdiği şu bilgiler tablo sütunlarına kaydedilir:
+  * Benzersiz bir ID (Primary Key)
+  * Ad, Soyad
+  * E-posta adresi
+  * Düz metin olarak değil, güvenli bir şekilde **hash'lenmiş şifre**
+  * Kayıt oluşturulma tarihi (Created At)
+
+### 8. Backend başarılı olursa frontend ne gösterir?
+* İşlemler sorunsuz tamamlandığında backend, frontend'e `200 OK` veya `201 Created` HTTP durum kodu ile birlikte başarılı olduğuna dair bir mesaj (`"Kayıt başarıyla oluşturuldu"`) döner.
+* Frontend bu yanıtı aldığında kullanıcıya yeşil renkli bir başarı bildirimi (toast/alert) gösterir ve genellikle kullanıcıyı giriş (login) sayfasına yönlendirir.
+
+### 9. Backend hata verirse frontend ne gösterir?
+* E-posta zaten kullanımdasa veya sunucu tabanlı bir hata oluşursa backend `400 Bad Request` veya `500 Internal Server Error` gibi hata kodları ve hata mesajı döner.
+* Frontend bu hatayı yakalar (`catch` bloğu ile) ve kullanıcıya kırmızı renkli bir uyarı mesajı göstererek (örneğin *"Bu e-posta adresi zaten kayıtlı"*) eksik veya hatalı kısmı düzeltmesini ister.
