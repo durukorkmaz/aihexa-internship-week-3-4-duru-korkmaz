@@ -10,6 +10,6 @@ Geleneksel Spring projelerinde, XML dosyaları veya uzun Java sınıfları ile d
 
 * **Otomatik Yapılandırma (Auto-Configuration):** Projenize eklediğiniz kütüphaneleri (örneğin bir veritabanı sürücüsü veya web bileşeni) algılar ve uygulamanızı akıllı bir şekilde otomatik olarak yapılandırır.
 * **Gömülü Sunucu Desteği (Embedded Servers):** İçerisinde Apache Tomcat, Jetty veya Undertow gibi web sunucularını barındırır. Bu sayede harici bir sunucu kurmanıza gerek kalmadan uygulamanızı doğrudan bir JAR dosyası olarak çalıştırabilirsiniz.
-* **Başlangıç Bağımlılıkları (Starter Dependencies):** Maven veya Gradle gibi araçlar için optimize edilmiş `spring-boot-starter` paketleri sunar. Tek bir paketle (örneğin `spring-boot-starter-web`) ihtiyacınız olan tüm kütüphaneleri otomatik olarak projenize dahil edebilirsiniz.
+* **Başlangıç Bağımlılıkları (Starter Dependencies):** Maven veya Gradle gibi araçlar için optimize edilmiş spring-boot-starter paketleri sunar. Tek bir paketleihtiyacınız olan tüm kütüphaneleri otomatik olarak projenize dahil edebilirsiniz.
 * **XML Yapılandırması Gerektirmez:** Tamamen Java tabanlı konfigürasyonları destekler; karmaşık XML dosyaları yazma zorunluluğunu ortadan kaldırır.
 * **Üretime Hazır Araçlar (Spring Boot Actuator):** Canlı sistemdeki uygulamaların sağlık durumunu (health check), metriklerini ve performansını izlemenizi sağlayan dahili araçlar sunar.
